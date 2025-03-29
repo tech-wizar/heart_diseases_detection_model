@@ -1,0 +1,10 @@
+﻿Library,Purpose,Installation Command
+`pandas`,Data manipulation and analysis (e.g., loading CSV files, handling missing values).,pip install pandas
+`numpy`,Numerical computations (used internally by many libraries like scikit-learn).,pip install numpy
+`matplotlib`,Data visualization (not explicitly used in this script but included for potential future use).,pip install matplotlib
+`scikit-learn`,Machine learning tasks such as splitting datasets, training models, and evaluating performance.,pip install scikit-learn
+`pickle`,Saving and loading the trained model to/from a file.,Part of Python&#39;s standard library
+`os`,File path operations (e.g., checking if a file exists).,Part of Python&#39;s standard library
+Optional Libraries,,
+`seaborn`,Enhanced data visualization (e.g., plotting confusion matrices or feature importance).,pip install seaborn
+`imbalanced-learn`,Handling imbalanced datasets (if needed during preprocessing).,pip install imbalanced-learn
