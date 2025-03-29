@@ -1,0 +1,14 @@
+﻿Feature,Definition,Options (Mapped to Digits)
+age,Age of the patient in years,Continuous numerical value (e.g., 29, 45, 60)
+sex,Gender of the patient,0: Female<br>1: Male
+cp,Type of chest pain,0: Typical angina<br>1: Atypical angina<br>2: Non-anginal pain<br>3: Asymptomatic
+trestbps,Resting blood pressure (in mm Hg),Continuous numerical value (e.g., 120, 130, 140)
+chol,Serum cholesterol level (in mg/dL),Continuous numerical value (e.g., 200, 250, 300)
+fbs,Fasting blood sugar (&gt; 120 mg/dL),0: ≤ 120 mg/dL<br>1: &gt; 120 mg/dL
+restecg,Resting electrocardiographic results,0: Normal<br>1: ST-T wave abnormality<br>2: Left ventricular hypertrophy (LVH)
+thalach,Maximum heart rate achieved during exercise,Continuous numerical value (e.g., 150, 170, 180)
+exang,Exercise-induced angina,0: No<br>1: Yes
+oldpeak,ST depression induced by exercise (in mm),Continuous numerical value (e.g., 0.0, 1.5, 2.3)
+slope,Slope of peak exercise ST segment,0: Upsloping<br>1: Flat<br>2: Downsloping
+ca,Number of major vessels colored by fluoroscopy,0: No vessels<br>1: One vessel<br>2: Two vessels<br>3: Three vessels
+thal,Thalassemia type,1: Normal<br>2: Fixed defect<br>3: Reversible defect
