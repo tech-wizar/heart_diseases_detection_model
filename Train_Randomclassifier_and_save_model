@@ -1,0 +1,144 @@
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+import os
+import pickle
+
+# ================================
+# Step 1: Load Dataset
+# ================================
+def load_dataset(file_path):
+    """
+    Load the dataset from the given file path.
+    """
+    try:
+        df = pd.read_csv(file_path)
+        print(" Dataset loaded successfully.")
+        return df
+    except Exception as e:
+        print(f"❌ Error loading dataset: {e}")
+        exit()
+
+# ================================
+# Step 2: Preprocess Data
+# ================================
+def preprocess_data(df):
+    """
+    Preprocess the dataset by dropping non-significant columns and checking for missing values.
+    """
+    # Drop non-significant columns (if they exist)
+    df = df.drop(columns=["id", "dataset"], errors="ignore")
+    print("\n Non-significant columns dropped (if present).")
+
+    # Check for missing values
+    if df.isnull().sum().sum() > 0:
+        print("\n Missing values detected:")
+        print(df.isnull().sum())
+        # You can handle missing values here (e.g., imputation) if needed
+    else:
+        print("\n No missing values detected.")
+
+    # Display basic info about the dataset
+    print("\nDataset Preview:\n", df.head())
+    print("\nDataset Summary:\n", df.info())
+
+    return df
+
+# ================================
+# Step 3: Train-Test Split
+# ================================
+def split_data(df):
+    """
+    Split the dataset into training and testing sets.
+    """
+    X = df.iloc[:, :-1]  # Features (all columns except the last one)
+    y = df.iloc[:, -1]   # Target (last column)
+
+    # Perform an 80-20 split
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
+    print("\n  Data split into training and testing sets (80-20 split).")
+    return X_train, X_test, y_train, y_test
+
+# ================================
+# Step 4: Train the Model
+# ================================
+def train_model(X_train, y_train):
+    """
+    Train a Random Forest Classifier on the training data.
+    """
+    rf_model = RandomForestClassifier(
+        n_estimators=100, random_state=42, n_jobs=-1
+    )
+    rf_model.fit(X_train, y_train)
+    print("\n Random Forest model trained successfully.")
+    return rf_model
+
+# ================================
+# Step 5: Evaluate the Model
+# ================================
+def evaluate_model(model, X_test, y_test):
+    """
+    Evaluate the trained model on the test data.
+    """
+    # Make predictions
+    y_pred = model.predict(X_test)
+
+    # Calculate accuracy
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"\n Model Accuracy: {accuracy:.4f}")
+
+    # Print classification report
+    print("\n Classification Report:\n")
+    print(classification_report(y_test, y_pred))
+
+    # Print confusion matrix
+    print("\n Confusion Matrix:\n")
+    print(confusion_matrix(y_test, y_pred))
+
+    return accuracy
+
+# ================================
+# Step 6: Save the Model
+# ================================
+def save_model(model, model_path):
+    """
+    Save the trained model to a file using pickle.
+    """
+    try:
+        with open(model_path, 'wb') as file:
+            pickle.dump(model, file)
+        print(f"\n  Model saved successfully at: {model_path}")
+    except Exception as e:
+        print(f" Error saving model: {e}")
+
+# ================================
+# Main Execution
+# ================================
+if __name__ == "__main__":
+    # Define file paths
+    file_path = "/content/balanced_heart_diseases.csv" #update as per your concerns
+    model_path = "random_forest_model.p"
+
+    # Step 1: Load dataset
+    df = load_dataset(file_path)
+
+    # Step 2: Preprocess data
+    df = preprocess_data(df)
+
+    # Step 3: Split data
+    X_train, X_test, y_train, y_test = split_data(df)
+
+    # Step 4: Train the model
+    rf_model = train_model(X_train, y_train)
+
+    # Step 5: Evaluate the model
+    evaluate_model(rf_model, X_test, y_test)
+
+    # Step 6: Save the model
+    save_model(rf_model, model_path)
