@@ -1,0 +1,59 @@
+import pickle
+import pandas as pd
+
+# Path to the saved model
+model_path = r"C:\Users\user\Downloads\heart_disease_model.p"
+
+# Load the trained model
+try:
+    with open(model_path, 'rb') as file:
+        model = pickle.load(file)
+    print(" Model loaded successfully.")
+except Exception as e:
+    print(f" Error loading model: {e}")
+    exit()
+
+# Define the feature names (replace these with the actual feature names used during training)
+feature_names = [
+    "age", "sex", "cp", "trestbps", "chol", "fbs", "restecg",
+    "thalach", "exang", "oldpeak", "slope", "ca", "thal"
+]
+
+# Example custom input data (replace these values with your own data)
+custom_data = {
+    "age": [50],      
+    "sex": [1],        
+    "cp": [2],         
+    "trestbps": [120], 
+    "chol": [200],    
+    "fbs": [0],        
+    "restecg": [1],   
+    "thalach": [150],  
+    "exang": [0],      
+    "oldpeak": [1.5],  
+    "slope": [1],      
+    "ca": [0],         
+    "thal": [2]        
+}
+
+# Convert custom data to a DataFrame
+custom_df = pd.DataFrame(custom_data)
+
+# Ensure the column order matches the training data
+custom_df = custom_df[feature_names]  # Reorder columns to match the training data
+
+# Predict probabilities for the custom data
+try:
+    probabilities = model.predict_proba(custom_df)[0]  # Get probabilities for the first sample
+    print("\nClass Probabilities:")
+    for i, prob in enumerate(probabilities):
+        print(f"Probability of Class {i}: {prob:.4f}")
+    
+    # Interpret the result
+    if len(probabilities) == 2:  # Binary classification case
+        print(f"\nProbability of No Heart Disease: {probabilities[0]:.4f}")
+        print(f"Probability of Heart Disease: {probabilities[1]:.4f}")
+        predicted_class = 1 if probabilities[1] > 0.5 else 0
+        print(f"Predicted Class: {predicted_class} ({'Heart Disease' if predicted_class == 1 else 'No Heart Disease'})")
+except Exception as e:
+    print(f" Error during prediction: {e}")
